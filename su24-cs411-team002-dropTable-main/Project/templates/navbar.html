@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand mb-0 h1 text-reset" href="{{ url_for('index') }}">Pick Your Processor</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link text-reset" href="{{ url_for('carts') }}">Carts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-reset" href="{{ url_for('CPU') }}">CPU</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-reset" href="{{ url_for('GPU') }}">GPU</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-reset" href="{{ url_for('Trending_GPU') }}">Trending GPU</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-reset" href="{{ url_for('Trending_CPU') }}">Trending CPU</a>
+        </li>
+      </ul>
+      <span class="navbar-text me-2">Signed in as {{ session['username'] }}</span>
+      <a href="{{ url_for('sign_out') }}" class="btn btn-outline-danger me-2">Sign out</a>
+      <form class="d-flex" role="search" method="POST" action="{{ url_for('search') }}">
+        <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+

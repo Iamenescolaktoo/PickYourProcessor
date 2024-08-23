@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Trending GPU</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <style>
+    .sortable-column {
+    cursor: pointer;
+    }
+    .sort-arrow {
+    margin-left: 5px;
+    }
+    .arrow-up, .arrow-down {
+    font-size: 12px;
+    cursor: pointer;
+    }
+    .arrow-up {
+    color: green;
+    }
+    .arrow-down {
+    color: red;
+    }
+    </style>
+  </head>
+  <body>
+    {% include 'navbar.html' %}
+    <div class="container-fluid form-container">
+      <div class="container login-container">
+        <div class="row">
+          <div class="col-md-12 form-part">
+            <h3 class="display-3">GPU Page <i class="bi bi-gpu-card"></i></h3>
+            <table class="table mt-4">
+              <thead>
+                <tr>
+                  <th class="sortable-column">Brand <i class="fa fa-arrow-up arrow-up" onclick="sortTable('brand', 'asc')"></i><i class="fa fa-arrow-down arrow-down" onclick="sortTable('brand', 'desc')"></i></th>
+                  <th class="sortable-column">Name <i class="fa fa-arrow-up arrow-up" onclick="sortTable('name', 'asc')"></i><i class="fa fa-arrow-down arrow-down" onclick="sortTable('name', 'desc')"></i></th>
+                  <th>Add to cart</th>
+                </tr>
+              </thead>
+              <tbody id="gpuTableBody">
+                {% for (brand, name) in tren_gpus %}
+                <tr>
+                  <td>{{ brand }}</td>
+                  <td>{{ name }}</td>
+                  
+                  <td>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Add
+                      </button>
+                      <ul class="dropdown-menu">
+                        {% for (title, cartId) in carts %}
+                        <li><a class="dropdown-item" href="{{ url_for('update_GPU', cart_id=cartId, gpu_name=name) }}">{{ title }}</a></li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap w/ Dependencies -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+    // Function to sort the table
+    function sortTable(column, order) {
+      const table = document.querySelector("table");
+      const tbody = table.querySelector("tbody");
+      const rowsArray = Array.from(tbody.querySelectorAll("tr"));
+
+      rowsArray.sort((rowA, rowB) => {
+        const cellA = rowA.querySelector(`td:nth-child(${getColumnIndex(column)})`).textContent.trim();
+        const cellB = rowB.querySelector(`td:nth-child(${getColumnIndex(column)})`).textContent.trim();
+
+        if (order === 'asc') {
+          return compare(cellA, cellB, column);
+        } else {
+          return compare(cellB, cellA, column);
+        }
+      });
+
+      rowsArray.forEach(row => tbody.appendChild(row));
+    }
+
+    // Helper function to get column index
+    function getColumnIndex(column) {
+      const columns = {
+        'brand': 1,
+        'name': 2,
+        'cost': 3,
+        'releaseYear': 4,
+        'baseFreq': 5,
+        'memory': 6,
+        'memoryClock': 7
+      };
+      return columns[column];
+    }
+
+    // Helper function to compare values
+    function compare(a, b, column) {
+      if (column === 'name' || column === 'brand') {
+        return a.localeCompare(b);
+      }
+
+      const numA = a === 'None' ? 0 : parseFloat(a.replace(/[^0-9.-]+/g, ""));
+      const numB = b === 'None' ? 0 : parseFloat(b.replace(/[^0-9.-]+/g, ""));
+
+      return numA - numB;
+    }
+    </script>
+  </body>
+</html>

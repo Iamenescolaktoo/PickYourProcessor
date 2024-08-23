@@ -1,0 +1,37 @@
+.budget-indicator {
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.under-budget {
+  background-color: #d4edda;
+  color: #155724;
+}
+.over-budget {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+.permission-section {
+  display: flex;
+  align-items: center;
+}
+.permission-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.red { background-color: #dc3545; }
+.green { background-color: #28a745; }
+.blue { background-color: #007bff; }
+.btn-view { transition: background-color 0.3s; }
+.over-budget-cost {
+  color: #dc3545; /* Red */
+}
+.under-budget-cost {
+  color: #28a745; /* Green */
+}
